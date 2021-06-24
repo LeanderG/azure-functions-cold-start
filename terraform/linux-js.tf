@@ -11,7 +11,7 @@ resource "azurerm_app_service_plan" "sp_coldstarts_linux_js" {
   }
 }
 
-resource "azurerm_function_app" "fa-coldstarts-linux-js" {
+resource "azurerm_function_app" "fa_coldstarts_linux-js" {
   name                       = "fa-coldstarts-linux-js"
   location                   = azurerm_resource_group.rg_coldstarts.location
   resource_group_name        = azurerm_resource_group.rg_coldstarts.name
