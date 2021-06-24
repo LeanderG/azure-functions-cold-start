@@ -19,7 +19,6 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     environment: production
-    needs: [terraform]
     steps:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@master
