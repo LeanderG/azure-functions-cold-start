@@ -3,7 +3,8 @@ resource "azurerm_app_service_plan" "sp_coldstarts_linux_node" {
   name                = "sp-coldstarts-linux-node"
   location            = azurerm_resource_group.rg_coldstarts.location
   resource_group_name = azurerm_resource_group.rg_coldstarts.name
-  kind                = "Linux"
+  kind                = "FunctionApp"
+  // reserved = true sets the plan to Linux
   reserved            = true
   sku {
     tier = "Dynamic"
