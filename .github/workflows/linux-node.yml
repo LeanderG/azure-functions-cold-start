@@ -21,7 +21,7 @@ jobs:
     environment: production
     strategy:
       matrix:
-        package-size: [sm, md]
+        size: [sm, md]
     steps:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@master
@@ -36,7 +36,7 @@ jobs:
     - name: 'Resolve Project Dependencies Using Npm'
       shell: bash
       run: |
-        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}-${{ package-size}}'
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}-${{ size }}'
         npm install
         npm run build --if-present
         npm run test --if-present
@@ -45,5 +45,5 @@ jobs:
       uses: Azure/functions-action@v1
       id: fa
       with:
-        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}-${{ package-size}}
-        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}-${{ package-size}}
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}-${{ size }}
+        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}-${{ size }}
