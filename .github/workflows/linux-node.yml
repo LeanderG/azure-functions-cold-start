@@ -11,14 +11,17 @@ on:
 #
 # 2. Change these variables for your configuration:
 env:
-  AZURE_FUNCTIONAPP_NAME: fa-coldstarts-linux-node-sm    # set this to your application's name
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: './functions/linux-node-sm'      # set this to the path to your web app project, defaults to the repository root
+  AZURE_FUNCTIONAPP_NAME: fa-coldstarts-linux-node    # set this to your application's name
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './functions/linux-node'      # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '14.x'                     # set this to the node version to use (supports 8.x, 10.x, 12.x)
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     environment: production
+    strategy:
+      matrix:
+        package-size: [sm, md]
     steps:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@master
@@ -33,7 +36,7 @@ jobs:
     - name: 'Resolve Project Dependencies Using Npm'
       shell: bash
       run: |
-        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}-${{ package-size}}'
         npm install
         npm run build --if-present
         npm run test --if-present
@@ -42,5 +45,5 @@ jobs:
       uses: Azure/functions-action@v1
       id: fa
       with:
-        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}-${{ package-size}}
+        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}-${{ package-size}}
